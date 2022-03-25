@@ -18,18 +18,27 @@ while os.getenv(resid + str(get_num)):
     ALL_RESUMES.append(os.getenv(resid + str(get_num)))
     get_num += 1
 
-print(ALL_RESUMES)
+#print(ALL_RESUMES)
 
-
+upd_url = []
+ir = 0
 
 while os.getenv(resid + str(get_num)):
     ALL_RESUMES.append(os.getenv(resid + str(get_num)))
     get_num += 1
 
-update_url1 = f'https://api.hh.ru/resumes/{ALL_RESUMES[0]}/publish/'
-update_url2 = f'https://api.hh.ru/resumes/{ALL_RESUMES[1]}/publish/'
-update_url3 = f'https://api.hh.ru/resumes/{ALL_RESUMES[2]}/publish/'
-update_url4 = f'https://api.hh.ru/resumes/{ALL_RESUMES[3]}/publish/'
+for get_num in ALL_RESUMES:
+    upd_url.append(f'https://api.hh.ru/resumes/{ALL_RESUMES[ir]}/publish/')
+    ir += 1
+
+print(upd_url)
+
+
+response1 = requests.post(update_url1, headers=headers)
+response2 = requests.post(update_url2, headers=headers)
+response3 = requests.post(update_url3, headers=headers)
+response4 = requests.post(update_url4, headers=headers)
+
 
 
 
