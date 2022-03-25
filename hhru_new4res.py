@@ -10,14 +10,18 @@ ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 REFRESH_TOKEN = os.getenv('REFRESH_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('CHAT_ID')
-ALL_RESUMES = []
+all_resumes = []
 resid = 'RESUME_ID'
 get_num = 0
 upd_url = []
+response_n = []
+error_code = []
+error_value = []
+mes_sbor_er = []
 
 while os.getenv(resid + str(get_num)):
-    ALL_RESUMES.append(os.getenv(resid + str(get_num)))
-    upd_url.append(f'https://api.hh.ru/resumes/{ALL_RESUMES[get_num]}/publish/')
+    all_resumes.append(os.getenv(resid + str(get_num)))
+    upd_url.append(f'https://api.hh.ru/resumes/{all_resumes[get_num]}/publish/')
     get_num += 1
 
 headers = {'Authorization': f'Bearer {ACCESS_TOKEN}'}
@@ -35,13 +39,17 @@ def update_resume():
         response_n.append(requests.post(upd_url[i], headers=headers))
 
         if response_n[i].status_code == 204:
-            send_message('Резюме успешно обновлено!')
+            mes_sbor = (f'Резюме успешно обновлено! {response_n[i]} резюме.')
         else:
             error_code.append(response_n[i].status_code)
             error_value.append(response_n[i].json()['errors'][0]['value'])
-            send_message(f'Ошибка {error_code[i]}: {error_value[i]}')
-            if error_value1 == 'token_expired':
+            mes_sbor_er.append(f'Ошибка {error_code[i]}: {error_value[i]}\n')
+            mes_sbor = mes_sbor_er
+            #send_message(f'Ошибка {error_code[i]}: {error_value[i]}')
+            if error_value[i] == 'token_expired':
                 refresh_token()
+
+    send_message(''.join(mes_sbor))
 
 
 def refresh_token():

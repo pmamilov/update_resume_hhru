@@ -8,36 +8,39 @@ load_dotenv(dotenv_file)
 
 ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 REFRESH_TOKEN = os.getenv('REFRESH_TOKEN')
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+CHAT_ID = os.getenv('CHAT_ID')
+headers = {'Authorization': f'Bearer {ACCESS_TOKEN}'}
+bot = telebot.TeleBot(token=TELEGRAM_TOKEN)
 
-ALL_RESUMES = []
+all_resumes = []
 resid = 'RESUME_ID'
-get_num = 1
-
-
-while os.getenv(resid + str(get_num)):
-    ALL_RESUMES.append(os.getenv(resid + str(get_num)))
-    get_num += 1
-
-#print(ALL_RESUMES)
-
+get_num = 0
 upd_url = []
-ir = 0
+response_n = []
+error_code = []
+error_value = []
 
 while os.getenv(resid + str(get_num)):
-    ALL_RESUMES.append(os.getenv(resid + str(get_num)))
+    all_resumes.append(os.getenv(resid + str(get_num)))
+    upd_url.append(f'https://api.hh.ru/resumes/{all_resumes[get_num]}/publish/')
     get_num += 1
 
-for get_num in ALL_RESUMES:
-    upd_url.append(f'https://api.hh.ru/resumes/{ALL_RESUMES[ir]}/publish/')
-    ir += 1
+#print(upd_url)
 
-print(upd_url)
+def send_message(message):
+    return bot.send_message(chat_id=CHAT_ID, text=message)
 
+for i in range(get_num):
+    response_n.append(requests.post(upd_url[i], headers=headers))
 
-response1 = requests.post(update_url1, headers=headers)
-response2 = requests.post(update_url2, headers=headers)
-response3 = requests.post(update_url3, headers=headers)
-response4 = requests.post(update_url4, headers=headers)
+    if response_n[i].status_code == 204:
+        send_message('Резюме успешно обновлено!')
+    else:
+        error_code.append(response_n[i].status_code)
+        error_value.append(response_n[i].json()['errors'][0]['value'])
+        send_message(f'Ошибка {error_code[i]}: {error_value[i]}')
+
 
 
 
