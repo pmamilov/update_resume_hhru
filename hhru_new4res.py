@@ -48,6 +48,8 @@ def update_resume():
             #send_message(f'Ошибка {error_code[i]}: {error_value[i]}')
             if error_value[i] == 'token_expired':
                 refresh_token()
+                mes_sbor = 'Отправлен запрос на обновление токена'
+                break
 
     send_message(''.join(mes_sbor))
 
