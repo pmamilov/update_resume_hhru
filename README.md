@@ -11,9 +11,11 @@
 #### Создайте файл *.env* и добавьте в него свои значения:
     ACCESS_TOKEN = Ваш токен, для доступа к API hh.ru
     REFRESH_TOKEN = Токен для обновления access токена
-    RESUME_ID = ID вашего резюме (из адресной строки страницы с резюме)
+    RESUME_ID0 = ID вашего резюме (из адресной строки страницы с резюме)
     TELEGRAM_TOKEN = Токен вашего телеграм-бота
     CHAT_ID = ID вашего телеграм аккаунта
+    
+Если у вас несколько резюме, то добавляйте данные с переменными RESUME_ID1, RESUME_ID2, RESUME_ID3 и т.д.
 Как получить токен для API можно почитать [здесь](https://github.com/hhru/api/blob/master/docs/authorization_for_user.md).  
 ***
 #### Теперь нужно запускать скрипт каждые 4 часа, для этого добавьте таск в cron:  
@@ -23,6 +25,10 @@
 И добавляем в конец строку:
 
     0 */4 * * * update_resume_hhru/venv/bin/python update_resume_hhru/hhru.py
+    
+    или только в рабочие часы
+    
+    0 8,12,16 * * * update_resume_hhru/venv/bin/python update_resume_hhru/hhru.py
 
 Готово!
 
