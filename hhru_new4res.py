@@ -39,7 +39,7 @@ def update_resume():
         response_n.append(requests.post(upd_url[i], headers=headers))
 
         if response_n[i].status_code == 204:
-            mes_sbor = (f'Резюме успешно обновлено! {response_n[i]} резюме.')
+            mes_sbor = (f'Резюме успешно обновлено! {get_num+1} резюме.')
         else:
             error_code.append(response_n[i].status_code)
             error_value.append(response_n[i].json()['errors'][0]['value'])
