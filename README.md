@@ -28,7 +28,7 @@
     
     или только в рабочие часы
     
-    0 8,12,16 * * * update_resume_hhru/venv/bin/python update_resume_hhru/hhru.py
+    0 9,13,17 * * * update_resume_hhru/venv/bin/python update_resume_hhru/hhru.py
 
 Готово!
 
