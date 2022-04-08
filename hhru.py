@@ -39,7 +39,7 @@ def update_resume():
         response_n.append(requests.post(upd_url[i], headers=headers))
 
         if response_n[i].status_code == 204:
-            mes_sbor = (f'Резюме успешно обновлено! {get_num+1} резюме.')
+            mes_sbor = (f'Резюме успешно обновлено! {get_num} резюме.')
         else:
             error_code.append(response_n[i].status_code)
             error_value.append(response_n[i].json()['errors'][0]['value'])
@@ -47,11 +47,12 @@ def update_resume():
             mes_sbor = mes_sbor_er
             #send_message(f'Ошибка {error_code[i]}: {error_value[i]}')
             if error_value[i] == 'token_expired':
+                send_message(''.join('Отправлен запрос на обновление токена'))
                 refresh_token()
-                mes_sbor = 'Отправлен запрос на обновление токена'
+                mes_sbor = ''
                 break
-
-    send_message(''.join(mes_sbor))
+    if mes_sbor != ''
+        send_message(''.join(mes_sbor))
 
 
 def refresh_token():
